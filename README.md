@@ -1,12 +1,12 @@
-= Tsker cli
+# Tsk cli
 
-== Install
+## Install
 
 Not available yet
 
-== Commands
+## Commands
 
-=== init
+### init
 
 ```bash
 tsk init
@@ -14,7 +14,7 @@ tsk init
 
 Int tsk project. Create the folder architecture into .tsk folder
 
-=== add
+### add
 
 ```bash
 tsk add <description...>
@@ -22,7 +22,7 @@ tsk add <description...>
 
 Create a new task
 
-=== x
+### x
 
 ```bash
 tsk x <identifier>
@@ -30,7 +30,7 @@ tsk x <identifier>
 
 Toggle the task status
 
-=== rm
+### rm
 
 ```bash
 tsk x <identifier>
