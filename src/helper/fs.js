@@ -3,7 +3,7 @@ const baseDir = `${process.cwd()}/.tskr/`
 
 const getFilePath = (file, extension = '.json') => `${baseDir}${file}${extension}`
 
-const getBaseDir = () => baseDir
+const getBaseDir = async () => await fs.realpath(baseDir)
 
 const readFile = async (file, extension) => {
   const filepath = getFilePath(file, extension)
