@@ -1,9 +1,9 @@
 const { Command } = require('commander')
-const package = require('../../package.json')
+const { version } = require('../../package.json')
 
 const tsk = new Command()
 
-tsk.version(package.version)
+tsk.version(version)
 
 const register = (command) => (action) => tsk.command(command).action(action)
 

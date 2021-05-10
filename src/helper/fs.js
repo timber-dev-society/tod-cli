@@ -3,6 +3,8 @@ const baseDir = `${process.cwd()}/.tskr/`
 
 const getFilePath = (file, extension = '.json') => `${baseDir}${file}${extension}`
 
+const getBaseDir = () => baseDir
+
 const readFile = async (file, extension) => {
   const filepath = getFilePath(file, extension)
 
@@ -27,6 +29,7 @@ const writeFile = async (data, file, extension) => {
 }
 
 module.exports = {
+  getBaseDir,
   readFile,
   writeFile,
 }
