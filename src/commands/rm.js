@@ -1,6 +1,7 @@
-const { register } = require('../helper/command')
 const { connect } = require('../store')
 const { deleteTask } = require('../action/task')
+
+const command = 'rm <identifier>'
 
 const mapDispatchToProps = dispatch => ({
   submitDelete: uid => dispatch(deleteTask(uid))
@@ -11,4 +12,7 @@ const action = connect(
   mapDispatchToProps
 )(uid => ({ submitDelete }) => submitDelete(uid))
 
-register('rm <identifier>')(action)
+module.exports = {
+  command,
+  action,
+}

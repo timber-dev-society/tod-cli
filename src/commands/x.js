@@ -1,6 +1,7 @@
-const { register } = require('../helper/command')
 const { connect } = require('../store')
 const { toggleTask } = require('../action/task')
+
+const command = 'x <identifier>'
 
 const mapDispatchToProps = dispatch => ({
   submitToggle: uid => dispatch(toggleTask(uid))
@@ -11,4 +12,7 @@ const action = connect(
   mapDispatchToProps
 )(uid => ({ submitToggle }) => submitToggle(uid))
 
-register('x <identifier>')(action)
+module.exports = {
+  command,
+  action,
+}

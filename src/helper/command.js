@@ -5,7 +5,7 @@ const tsk = new Command()
 
 tsk.version(version)
 
-const register = (command) => (action) => tsk.command(command).action(action)
+const register = ({ command, action }) => tsk.command(command).action(action)
 
 const parse = () => tsk.parse(process.argv)
 

@@ -1,6 +1,6 @@
-require('./add')
-require('./ls')
-require('./rm')
-require('./x')
+const { register } = require('../helper/command')
 
-module.exports = {}
+register(require('./add'))
+register(require('./ls'))
+register(require('./rm'))
+register(require('./x'))
