@@ -1,5 +1,5 @@
 const { constants, promises: fs } = require('fs')
-const baseDir = `${process.cwd()}/.tskr/`
+const baseDir = `${process.cwd()}/.tsk/`
 
 const getFilePath = (file, extension = '.json') => `${baseDir}${file}${extension}`
 
