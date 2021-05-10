@@ -5,13 +5,13 @@ const command = 'init'
 
 const action = async () => {
 
-  const baseDir = getBaseDir()
+ const baseDir = getBaseDir()
 
-  const isDirAlreadyExists = await fs.access(baseDir, constants.F_OK)
+ // const isDirAlreadyExists = await fs.access(baseDir, constants.F_OK)
 
-  if (isDirAlreadyExists) {
-    throw 'Tskr seems already initialized'
-  }
+  //if (isDirAlreadyExists) {
+   // throw 'Tskr seems already initialized'
+ // }
   
   try {
     await fs.mkdir(baseDir)

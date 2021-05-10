@@ -5,43 +5,31 @@ const { constants, promises: fs } = require('fs')
 const { join } = require('path')
 const { getBaseDir } = require('../../helper/fs')
 
-beforeEach(async () => {
-  //expect(process.cwd()).not.toBe(join(__dirname, '..', '..', '..'))
-  //await fs.mkdir(process.cwd())
-})
-
-afterEach(async () => {
-  //await fs.unlink(process.cwd())
-})
+const baseDir = getBaseDir()
+const fileExists = file => async () => await fs.access(join(baseDir, file), constants.F_OK)
 
 test('Init should generate file system', async () => {
 
   const { action } = require('../init')
 
-  const baseDir = await getBaseDir()
+  try {
+    await action()
+  } catch (err) {
+    console.log(err)
+    return
+  }
 
-  action()
+    const stats = await fs.lstat(baseDir)
+    expect(stats.isDirectory()).toBe(true)
 
-  //try {
-    const isDirCreated = await fs.access(baseDir, constants.F_OK)
-    expect(isDirCreated).toBe(true)
+    expect(fileExists('backlog.json')).not.toThrow()
 
-    //const isConfigCreated = await fs.access(join(baseDir, 'config.json'), constants.F_OK)
-    //expect(isConfigCreated).toBe(true)
+    expect(fileExists('tasks.json')).not.toThrow()
 
-    const isBacklogCreated = await fs.access(join(baseDir, 'backlog.json'), constants.F_OK)
-    expect(isBacklogCreated).toBe(true)
+    expect(fileExists('archive.json')).not.toThrow()
 
-    const isTasksCreated = await fs.access(join(baseDir, 'tasks.json'), constants.F_OK)
-    expect(isTasksCreated).toBe(true)
+    expect(fileExists('history.json')).not.toThrow()
 
-    const isArchiveCreated = await fs.access(join(baseDir, 'archive.json'), constants.F_OK)
-    expect(isArchiveCreated).toBe(true)
-
-    const isHistoryCreated = await fs.access(join(baseDir, 'history.json'), constants.F_OK)
-    expect(isHistoryCreated).toBe(true)
-  //} catch (error) {
-  //  console.log(error)
-  //  expect(error).toBe(false)
-  //}
+    const backlogStats = await fs.lstat(join(baseDir, 'backlog.json'))
+    expect(backlogStats.isFile()).toBe(true)
 })
