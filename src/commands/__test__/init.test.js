@@ -3,7 +3,7 @@ mockCwd()
 
 const { constants, promises: fs } = require('fs')
 const { join } = require('path')
-const { getBaseDir } = require('../../helper/fs')
+const { getBaseDir } = require('../../core/fs')
 
 const baseDir = getBaseDir()
 const fileExists = file => async () => await fs.access(join(baseDir, file), constants.F_OK)
@@ -19,17 +19,17 @@ test('Init should generate file system', async () => {
     return
   }
 
-    const stats = await fs.lstat(baseDir)
-    expect(stats.isDirectory()).toBe(true)
+  const stats = await fs.lstat(baseDir)
+  expect(stats.isDirectory()).toBe(true)
 
-    expect(fileExists('backlog.json')).not.toThrow()
+  expect(fileExists('backlog.json')).not.toThrow()
 
-    expect(fileExists('tasks.json')).not.toThrow()
+  expect(fileExists('tasks.json')).not.toThrow()
 
-    expect(fileExists('archive.json')).not.toThrow()
+  expect(fileExists('archive.json')).not.toThrow()
 
-    expect(fileExists('history.json')).not.toThrow()
+  expect(fileExists('history.json')).not.toThrow()
 
-    const backlogStats = await fs.lstat(join(baseDir, 'backlog.json'))
-    expect(backlogStats.isFile()).toBe(true)
+  const backlogStats = await fs.lstat(join(baseDir, 'backlog.json'))
+  expect(backlogStats.isFile()).toBe(true)
 })

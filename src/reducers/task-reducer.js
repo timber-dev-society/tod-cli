@@ -1,4 +1,4 @@
-const { now } = require('../helper/time')
+const { now } = require('../core/time')
 const { createHash } = require('crypto')
 
 const { LOAD_TASKS, ADD_TASK, TOGGLE_TASK, DELETE_TASK} = require('../action/task')

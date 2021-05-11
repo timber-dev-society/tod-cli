@@ -1,5 +1,5 @@
-const { parse } = require('./helper/command')
-const { readFile, writeFile } = require('./helper/fs')
+const { parse } = require('./core/command')
+const { readFile, writeFile } = require('./core/fs')
 const { store } = require('./store')
 const { loadTasks } = require('./action/task')
 

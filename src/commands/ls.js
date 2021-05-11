@@ -1,6 +1,6 @@
 const chalk = require('chalk')
 
-const { getRelativeTime } = require('../helper/time.js')
+const { getRelativeTime } = require('../core/time')
 const { connect } = require('../store')
 
 const command = 'ls'

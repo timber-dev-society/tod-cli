@@ -1,4 +1,4 @@
-const { register } = require('../helper/command')
+const { register } = require('../core/command')
 
 register(require('./add'))
 register(require('./ls'))

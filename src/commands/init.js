@@ -1,29 +1,17 @@
 const { constants, promises: fs } = require('fs')
-const { getBaseDir, writeFile } = require('../helper/fs')
+const { getBaseDir, writeFile } = require('../core/fs')
 
 const command = 'init'
 
 const action = async () => {
 
  const baseDir = getBaseDir()
+  await fs.mkdir(baseDir)
 
- // const isDirAlreadyExists = await fs.access(baseDir, constants.F_OK)
-
-  //if (isDirAlreadyExists) {
-   // throw 'Tskr seems already initialized'
- // }
-  
-  try {
-    await fs.mkdir(baseDir)
-
-
-    await writeFile([], 'backlog')
-    await writeFile([], 'tasks')
-    await writeFile([], 'archive')
-    await writeFile([], 'history')
-  } catch (error) {
-    console.log(error)
-  }
+  await writeFile([], 'backlog')
+  await writeFile([], 'tasks')
+  await writeFile([], 'archive')
+  await writeFile([], 'history')
 }
 
 module.exports = {
