@@ -10,6 +10,7 @@ const start = async () => {
   store.dispatch(loadTasks(tasks))
 
   // init commandes
+  require('./middlewares')
   require('./commands')
 
   // parse user input

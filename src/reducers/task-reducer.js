@@ -12,6 +12,7 @@ const defaultTask = {
 }
 
 module.exports = (state = [], {type, payload}) => {
+  let regex
 
   switch(type) {
     case LOAD_TASKS:
@@ -28,20 +29,24 @@ module.exports = (state = [], {type, payload}) => {
       ]
 
     case TOGGLE_TASK:
+      regex = RegExp(payload.replace('#', '^'))
       return state.map(task => {
-        if (RegExp(payload).test(task.uid)) {
-          return { 
+        if (regex.test(task.uid)) {
+          const newTask = { 
             ...task, 
             done: !task.done, 
             updated: now() 
           }
+
+          return newTask
         }
 
         return task
       })
     
     case DELETE_TASK:
-      return state.filter(task => !RegExp(payload).test(task.uid))
+      regex = RegExp(payload.replace('#', '^'))
+      return state.filter(task => !regex.test(task.uid))
 
     default:
       return state

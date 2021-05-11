@@ -10,7 +10,8 @@ const mapDispatchToProps = dispatch => ({
 const action = connect(
   undefined,
   mapDispatchToProps
-)(uid => ({ submitToggle }) => submitToggle(uid))
+)(uid => ({ submitToggle }) => {
+  console.log(uid);submitToggle(uid)})
 
 module.exports = {
   command,
