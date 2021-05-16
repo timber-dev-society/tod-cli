@@ -1,7 +1,8 @@
 {
-  "display": [
-    "uid",
-    "description"
-  ],
-  "user": "dious"
+  "data": {
+    "display": [
+      "uid",
+      "description"
+    ]
+  }
 }

@@ -8,10 +8,10 @@ const action = async () => {
  const baseDir = getBaseDir()
   await fs.mkdir(baseDir)
 
-  await writeFile([], 'backlog')
-  await writeFile([], 'tasks')
-  await writeFile([], 'archive')
-  await writeFile([], 'history')
+  await writeFile({ data: [] }, 'backlog')
+  await writeFile({ data: {} }, 'tasks')
+  await writeFile({ data: [] }, 'archive')
+  await writeFile({ data: [] }, 'history')
 }
 
 module.exports = {

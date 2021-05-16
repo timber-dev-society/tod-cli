@@ -6,22 +6,34 @@ const { connect } = require('../store')
 const command = 'ls'
 
 const parseTask = ({ uid, description, done, created }) => {
-  const relativeTime = getRelativeTime(created)
-
-  const age = `${relativeTime.duration}${relativeTime.type.charAt(0)}`
   const state = `[${chalk.green(done ? 'x' : ' ')}]`
   const identifier = `#${uid.substring(0, 5)}`
   
-  return `${state} ${age} ${identifier} ${description}`
+  return `${state} ${identifier} ${description}`
 }
 
-const stateToProps = ({ tasks }) => ({
+const parseBacklog = ({ uid, description, created }) => {
+  const relativeTime = getRelativeTime(created)
+
+  const age = `${relativeTime.duration}${relativeTime.type.charAt(0)}`
+  const identifier = `#${uid.substring(0, 5)}`
+  
+  return `${age} ${identifier} ${description}`
+}
+
+const stateToProps = ({ tasks, backlogs }) => ({
   tasks,
+  backlogs,
 })
 
 const action = connect(
   stateToProps,
-)(() => ({ tasks }) => tasks.forEach(task => console.log(parseTask(task))))
+)(() => ({ tasks, backlogs }) => {
+  console.log('Backlogs ======')
+  backlogs.forEach(backlog => console.log(parseBacklog(backlog)))
+  console.log('Tasks =====')
+  tasks.forEach(task => console.log(parseTask(task)))
+})
 
 module.exports = {
   command,

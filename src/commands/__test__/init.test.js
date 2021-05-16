@@ -6,10 +6,11 @@ const { join } = require('path')
 const { getBaseDir } = require('../../core/fs')
 
 const baseDir = getBaseDir()
-const fileExists = file => async () => await fs.access(join(baseDir, file), constants.F_OK)
+
+const fileExists = file => async () =>
+  await fs.access(join(baseDir, file), constants.F_OK)
 
 test('Init should generate file system', async () => {
-
   const { action } = require('../init')
 
   try {

@@ -1,7 +1,8 @@
 const { createStore } = require('redux')
 const rootReducer = require('./reducers')
+const middlewares = require('./middlewares/redux')
 
-const store = createStore(rootReducer)
+const store = createStore(rootReducer, middlewares)
 
 const noop = () => ({})
 
@@ -12,5 +13,5 @@ const connect = (stateToProps = noop, mapDispatchToProps = noop) => (action) => 
 
 module.exports = {
   store,
-  connect
+  connect,
 }

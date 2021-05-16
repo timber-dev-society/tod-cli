@@ -22,9 +22,11 @@ const getGitUserName = async () => await asyncExec(`git config user.name`)
 
 const getGitUserEmail = async () => await asyncExec(`git config user.email`)
 
+const getCurrentBranchName = async () => await asyncExec(`git branch --show-current`)
 
 module.exports = {
   isAGitRepo,
   getGitUserName,
   getGitUserEmail,
+  getCurrentBranchName,
 }
