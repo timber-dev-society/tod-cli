@@ -2,7 +2,10 @@ const { createStore } = require('redux')
 const rootReducer = require('./reducers')
 const middlewares = require('./middlewares/redux')
 
-const store = createStore(rootReducer, middlewares)
+const store = createStore(
+  rootReducer, 
+  middlewares,
+)
 
 const noop = () => ({})
 

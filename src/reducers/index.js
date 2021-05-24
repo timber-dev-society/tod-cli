@@ -1,9 +1,11 @@
 const { combineReducers } = require('redux')
 
-const tasks = require('./task-reducer')
+const app = require('./app-reducer')
 const backlogs = require('./backlog-reducer')
+const tasks = require('./task-reducer')
 
 module.exports = combineReducers({
-  tasks,
+  app,
   backlogs,
+  tasks,
 })

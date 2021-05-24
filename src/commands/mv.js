@@ -6,29 +6,31 @@ const { buildUidMatcher } = require('../core/task')
 
 const command = 'mv <identifier>'
 
-const stateToProps = ({ bakclogs }) => ({
-  bakclogs,
+const stateToProps = ({ backlogs, app }) => ({
+  context: app.context,
+  backlogs,
 })
 
 const mapDispatchToProps = dispatch => ({
-  moveTask: task => {
+  moveTask: (context, task) => {
     dispatch(deleteBacklog(task.uid))
-    dispatch(addTask(task))
+    dispatch(addTask(context, task))
   },
 })
 
 const action = connect(
   stateToProps,
   mapDispatchToProps
-)(uid => ({ backlogs, moveTask }) => {
+)(uid => ({ context, backlogs, moveTask }) => {
   const uidMatcher = buildUidMatcher(uid)
-  const task = backlogs.find(backlog => uidMatcher.test(bakclog.uid))
+  const task = backlogs.find(backlog => uidMatcher.test(backlog.uid))
+
 
   if (task === undefined) {
     throw 'Error task not found in backlog'
   }
 
-  moveTask(task)
+  moveTask(context, task)
 })
 
 module.exports = {

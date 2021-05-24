@@ -1,8 +1,12 @@
 const { parse } = require('./core/command')
 const { readFile, writeFile } = require('./core/fs')
+const { getCurrentBranchName } = require('./core/git')
+
 const { store } = require('./store')
+
 const { loadTasks } = require('./action/task')
 const { loadBacklogs } = require('./action/backlog')
+const { setContext } = require('./action/app')
 
 const start = async () => {
   // init store
@@ -12,6 +16,10 @@ const start = async () => {
   const tasks = await readFile('tasks')
   store.dispatch(loadTasks(tasks))
 
+  const context = await getCurrentBranchName()
+  console.log(context)
+  store.dispatch(setContext(context))
+
   // init commandes
   require('./middlewares')
   require('./commands')
@@ -20,7 +28,8 @@ const start = async () => {
   parse()
 
   // save file update
-  // await writeFile(store.getState().tasks, 'tasks')
+  await writeFile(store.getState().backlogs, 'backlogs')
+  await writeFile(store.getState().tasks, 'tasks')
 }
 
 start()

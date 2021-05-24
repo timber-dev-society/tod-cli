@@ -1,5 +1,4 @@
 const { now } = require('../core/time')
-const { createHash } = require('crypto')
 const { buildUidMatcher } = require('../core/task')
 
 const { LOAD_TASKS, ADD_TASK, TOGGLE_TASK, DELETE_TASK } = require('../action/task')
@@ -12,41 +11,58 @@ const defaultTask = {
   updated: now(),
 }
 
-module.exports = (state = [], { type, payload }) => {
+module.exports = (state = {}, { type, payload }) => {
   let uidMatcher
+
+  if (payload === undefined) {
+    return state
+  }
+
+  const { context, data } = payload
+
+  if (context !== undefined && state[context] === undefined) {
+    state[context] = []
+  }
 
   switch(type) {
     case LOAD_TASKS:
-      console.log(payload)
       return payload
   
     case ADD_TASK:
-      return [
+      return {
         ...state,
-        {
-          ...defaultTask,
-          uid: createHash('sha1').update(payload + now()).digest('hex'),
-          description: payload,
-        }
-      ]
+        [context]: [
+          ...state[context],
+          {
+            ...defaultTask,
+            ...data,
+          }
+        ]
+      }
 
     case TOGGLE_TASK:
-      uidMatcher = buildUidMatcher(payload)
-      return state.map(task => {
-        if (uidMatcher.test(task.uid)) {
-          return {
-            ...task, 
-            done: !task.done, 
-            updated: now() 
+      uidMatcher = buildUidMatcher(data)
+      return {
+        ...state,
+        [context]: state[context].map(task => {
+          if (uidMatcher.test(task.uid)) {
+            return {
+              ...task, 
+              done: !task.done, 
+              updated: now() 
+            }
           }
-        }
 
-        return task
-      })
+          return task
+        })
+      }
     
     case DELETE_TASK:
-      uidMatcher = buildUidMatcher(payload)
-      return state.filter(task => !uidMatcher.test(task.uid))
+      uidMatcher = buildUidMatcher(data)
+      return {
+        ...state,
+        [context]: state[context].filter(task => !uidMatcher.test(task.uid))
+      }
 
     default:
       return state
