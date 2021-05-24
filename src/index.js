@@ -6,19 +6,19 @@ const { store } = require('./store')
 
 const { loadTasks } = require('./action/task')
 const { loadBacklogs } = require('./action/backlog')
-const { setContext } = require('./action/app')
+const { setContext, setWorkDir } = require('./action/app')
 
 const start = async () => {
   // init store
-  const backlogs = await readFile('backlogs')
-  store.dispatch(loadBacklogs(backlogs))
+  // const backlogs = await readFile('backlogs')
+  // store.dispatch(loadBacklogs(backlogs))
 
-  const tasks = await readFile('tasks')
-  store.dispatch(loadTasks(tasks))
+  // const tasks = await readFile('tasks')
+  // store.dispatch(loadTasks(tasks))
 
   const context = await getCurrentBranchName()
-  console.log(context)
   store.dispatch(setContext(context))
+  store.dispatch(setWorkDir(`${process.cwd()}/.tsk/`))
 
   // init commandes
   require('./middlewares')
@@ -28,8 +28,8 @@ const start = async () => {
   parse()
 
   // save file update
-  await writeFile(store.getState().backlogs, 'backlogs')
-  await writeFile(store.getState().tasks, 'tasks')
+  //await writeFile(store.getState().backlogs, 'backlogs')
+  //await writeFile(store.getState().tasks, 'tasks')
 }
 
 start()
