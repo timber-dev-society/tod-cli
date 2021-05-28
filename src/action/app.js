@@ -4,10 +4,10 @@ const setContext = context => ({
   payload: context,
 })
 
-const SET_WORK_DIR = Symbool('@APP/SET_WORK_DIR')
+const SET_WORK_DIR = Symbol('@APP/SET_WORK_DIR')
 const setWorkDir = workDir => ({
   type: SET_WORK_DIR,
-  payload: setWorkDir,
+  payload: workDir,
 })
 
 module.exports = {
