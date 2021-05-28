@@ -1,4 +1,4 @@
-const { Command } = require('commander')
+const { Command, description } = require('commander')
 const { version } = require('../../package.json')
 const { COMMANDS, on } = require('./middleware')
 
@@ -16,7 +16,15 @@ const applyMiddleware = (action) => {
   }
 }
 
-const register = ({ command, action }) => tsk.command(command).action(applyMiddleware(action))
+const register = ({ command, action, options }) => {
+  const cmd = tsk.command(command)
+
+  if (options !== undefined && options.length !== 0) {
+    options.forEach(({ option, description }) =>  cmd.option(option, description))
+  }
+
+  cmd.action(applyMiddleware(action))
+}
 
 const parse = () => tsk.parse(process.argv)
 
