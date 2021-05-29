@@ -36,7 +36,8 @@ module.exports = (state = {}, { type, payload }) => {
           {
             ...defaultTask,
             ...data,
-          }
+            isDirty: true,
+          },
         ]
       }
 

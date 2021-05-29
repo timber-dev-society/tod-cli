@@ -17,14 +17,13 @@ const readFile = async (file, extension) => {
   }
 }
 
-const writeFile = async (data, file, extension) => {
-  const filepath = getFilePath(file, extension)
+const writeFile = async (content, filepath) => {
+  console.log(content, filepath)
 
   try {
-    const fileContent = JSON.stringify({ data })
-    await fs.writeFile(filepath, fileContent)
+    await fs.writeFile(filepath, content)
   } catch (e) {
-    throw `Unable to write file "${file}${extension}" in "${baseDir}" path!`
+    throw `Unable to write file "${filepath}" ${e} !`
   }
 }
 

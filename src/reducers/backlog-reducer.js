@@ -1,4 +1,5 @@
 const { now } = require('../core/time')
+const moment = require('moment')
 const { createHash } = require('crypto')
 
 const { buildUidMatcher } = require('../core/task')
@@ -9,8 +10,8 @@ const defaultBacklog = {
   uid: undefined,
   description: undefined,
   done: false,
-  created: now(),
-  updated: now(),
+  created: moment(),
+  updated: moment(),
 }
 
 module.exports = (state = [], { type, payload }) => {
@@ -25,6 +26,7 @@ module.exports = (state = [], { type, payload }) => {
           ...defaultBacklog,
           uid: createHash('sha1').update(payload + now()).digest('hex'),
           description: payload,
+          isDirty: true,
         }
       ]
     

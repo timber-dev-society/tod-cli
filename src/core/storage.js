@@ -14,11 +14,13 @@ const parseTaskFile = (fileName, content) => {
 
 const parseTaskContent = (content) => {
   const data = Object.keys(content)
-                     .filter(key => key !== 'uid')
+                     .filter(key => ![ 'uid', 'isDirty' ].includes(key))
                      .map(key => {
                       let value
-                      if (key === 'created') {
+                      if ([ 'created', 'updated' ].includes(key)) {
                         value = content[key].format(DATE_FORMAT)
+                      } else if (typeof content[key] === 'boolean') {
+                        value = `${content[key] ? 1 : 0}`
                       } else {
                         value = content[key].split('\n')
                       }
@@ -28,6 +30,7 @@ const parseTaskContent = (content) => {
                         value: value.length === 1 ? value[0] : value,
                       }
                     }).reduce((acc, { key, value }) => {
+                      console.log(key, value)
                       acc += `\n${key}: ${typeof value === 'string' ? value : `\n\t${value.join('\n\t')}`}`
 
                       return acc
