@@ -30,7 +30,6 @@ const parseTaskContent = (content) => {
                         value: value.length === 1 ? value[0] : value,
                       }
                     }).reduce((acc, { key, value }) => {
-                      console.log(key, value)
                       acc += `\n${key}: ${typeof value === 'string' ? value : `\n\t${value.join('\n\t')}`}`
 
                       return acc
@@ -96,7 +95,7 @@ const createTaskObject = (acc, data) => {
     return acc
   }
   
-  if (key === 'created') {
+  if ([ 'created', 'updated' ].includes(key)) {
     acc[key] = moment(data.value, DATE_FORMAT)
 
     return acc

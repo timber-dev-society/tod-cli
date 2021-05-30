@@ -1,27 +1,31 @@
-const { constants, promises: fs } = require('fs')
+const { promises: fs } = require('fs')
+const { compress, decompress } = require('./archive')
+
 const baseDir = `${process.cwd()}/.tsk/`
 
 const getFilePath = (file, extension = '.json') => `${baseDir}${file}${extension}`
 
 const getBaseDir = () => (baseDir)
 
-const readFile = async (file, extension) => {
-  const filepath = getFilePath(file, extension)
+const readDir = async path => {
 
+  return await fs.readdir(path)
+}
+
+const readFile = async (filepath) => {
   try {
-    await fs.access(filepath, constants.F_OK)
+    const data = await fs.readFile(filepath)
 
-    return require(filepath).data
+    return decompress(data)
   } catch (e) {
     throw `File "${file}${extension}" doesn't exists in "${baseDir}" path!`
   }
 }
 
 const writeFile = async (content, filepath) => {
-  console.log(content, filepath)
-
   try {
-    await fs.writeFile(filepath, content)
+    const data = compress(content)
+    await fs.writeFile(filepath, data)
   } catch (e) {
     throw `Unable to write file "${filepath}" ${e} !`
   }
@@ -29,6 +33,7 @@ const writeFile = async (content, filepath) => {
 
 module.exports = {
   getBaseDir,
+  readDir,
   readFile,
   writeFile,
 }
