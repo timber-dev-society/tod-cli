@@ -7,12 +7,34 @@ const { connect } = require('../store')
 
 const command = 'ls'
 
+const stateToProps = ({ tasks, backlogs, app }) => ({
+  context: app.context,
+  tasks,
+  backlogs,
+})
+
+const action = connect(
+  stateToProps,
+)(() => ({ tasks, backlogs, context }) => {
+  // backlogs.length !== 0 && renderBacklogs(backlogs)
+
+  const todo = tasks[context]
+  todo !== undefined && todo.length !== 0 && renderTasks(todo)
+})
+
+module.exports = {
+  command,
+  action,
+}
+
+// private methods
+
 const parseTask = (task) => {
   print(task)
   const state = `[${chalk.green(task.done ? 'x' : ' ')}]`
   const identifier = `#${task.uid.substring(0, 5)}`
   
-  return `${state} ${identifier} ${task.pssssasdescription}`
+  return [ state, identifier, task.description ]
 }
 
 const parseBacklog = ({ uid, description, created }) => {
@@ -34,29 +56,7 @@ const renderBacklogs = (backlogs) => {
 }
 
 const renderTasks = (tasks) => {
-  print('====== Tasks =====')
+  const data = tasks.reduce((acc, task) => acc.push(parseTask(task)) && acc, new Table({ head: [' ', 'UID', 'Description'] })).toString()
 
-  const table = new Table({ head: [' ', 'UID', 'Description'] })
-  tasks.forEach(task => table.push(parseTask(task)))
-
-  print(table.toString())
-}
-
-const stateToProps = ({ tasks, backlogs, app }) => ({
-  context: app.context,
-  tasks,
-  backlogs,
-})
-
-const action = connect(
-  stateToProps,
-)(() => ({ tasks, backlogs, context }) => {
-  backlogs.length !== 0 && renderBacklogs(backlogs)
-
-  tasks[context] !== undefined && tasks[context].length !== 0 && renderTasks(tasks[context])
-})
-
-module.exports = {
-  command,
-  action,
+  print(data)
 }
