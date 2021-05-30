@@ -1,11 +1,12 @@
 const { applyMiddleware } = require('redux')
-const thunk = require('redux-thunk').default
 
-const logger = require('./logger')
-const storage = require('./storage')
+let middlewares = []
+middlewares.push(require('redux-thunk').default)
+middlewares.push(require('./storage'))
 
-module.exports = applyMiddleware(
-  thunk,
-  logger,
-  storage,
-)
+
+if (process.env.NODE_ENV === 'TSK_DEV') {
+  middlewares.push(require('./logger'))
+}
+
+module.exports = applyMiddleware(...middlewares)
