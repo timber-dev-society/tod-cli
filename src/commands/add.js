@@ -1,5 +1,5 @@
 const { connect } = require('../store')
-const { addTask } = require('../action/task')
+const { createTask } = require('../action/task')
 const { addBacklog } = require('../action/backlog')
 
 const command = 'add <description...>'
@@ -10,7 +10,7 @@ const mapStateToProps = ({ app }) => ({
 
 const mapDispatchToProps = dispatch => ({
   submitBacklog: description => dispatch(addBacklog(description)),
-  submitTask: (context, description) => dispatch(addTask(context, description)),
+  submitTask: (context, description) => dispatch(createTask(context, description)),
 })
 
 const action = connect(

@@ -26,7 +26,6 @@ multiline task !`)
 
 test('Should generate the same result has the file', () => {
   const task = parseTaskFile(filePath, taskFileContent)
-
   const [ fileName, fileContent ] = parseTaskContent(task)
 
   expect(fileName).toBe(uid)

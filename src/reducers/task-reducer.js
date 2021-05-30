@@ -1,14 +1,17 @@
 const { now } = require('../core/time')
+const moment = require('moment')
+const { createHash } = require('crypto')
+
 const { buildUidMatcher } = require('../core/task')
 
-const { LOAD_TASKS, ADD_TASK, TOGGLE_TASK, DELETE_TASK } = require('../action/task')
+const { LOAD_TASKS, CREATE_TASK, ADD_TASK, TOGGLE_TASK, DELETE_TASK } = require('../action/task')
 
 const defaultTask = {
   uid: undefined,
   description: undefined,
   done: false,
-  created: now(),
-  updated: now(),
+  created: moment(),
+  updated: moment(),
 }
 
 module.exports = (state = {}, { type, payload }) => {
@@ -26,7 +29,24 @@ module.exports = (state = {}, { type, payload }) => {
 
   switch(type) {
     case LOAD_TASKS:
-      return payload
+      return {
+        ...state,
+        [context]: data
+      }
+
+    case CREATE_TASK:
+      return {
+        ...state,
+        [context]: [
+          ...state[context],
+          {
+            ...defaultTask,
+            uid: createHash('sha1').update(payload + now()).digest('hex'),
+            description: data,
+            isDirty: true,
+          },
+        ]
+      }
   
     case ADD_TASK:
       return {

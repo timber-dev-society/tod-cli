@@ -1,4 +1,4 @@
-const { Command, description } = require('commander')
+const { Command } = require('commander')
 const { version } = require('../../package.json')
 const { COMMANDS, on } = require('./middleware')
 
