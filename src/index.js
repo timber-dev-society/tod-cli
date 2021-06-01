@@ -28,7 +28,7 @@ const start = async () => {
   store.dispatch(setWorkDir(workDir))
 
   const todoDir = join(workDir, 'todo', context)
-  const todo = (await getFileContentFromPath(todoDir)).map(({fileName, content}) => parseTodoFile(fileName, content))
+  const todo = (await getFileContentFromPath(todoDir)).map(({ fileName, content }) => parseTodoFile(fileName, content))
   store.dispatch(loadTodos(context, todo))
 
   // init commandes

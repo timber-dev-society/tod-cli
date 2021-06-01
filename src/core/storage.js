@@ -4,7 +4,7 @@ const moment = require('moment')
 const DATE_FORMAT = 'YYYY-MM-DD hh:mm:ss ZZ'
 
 const parseTodoFile = (fileName, content) => {
-
+console.log(fileName)
   return content.split('\n')
                 .reduce(parseLine, [])
                 .reduce(createTodoObject, {

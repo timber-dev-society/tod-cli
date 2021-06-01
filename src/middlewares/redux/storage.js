@@ -1,3 +1,6 @@
+const { join } = require('path')
+const { promises: fs } = require('fs')
+
 const { ADD_BACKLOG, DELETE_BACKLOG } = require("../../action/backlog")
 const { ADD_TODO, DELETE_TODO, CREATE_TODO } = require("../../action/todo")
 const { writeFile } = require("../../core/fs")
@@ -30,7 +33,13 @@ module.exports = store => next => action => {
         todos[app.context].some(todo => {
           if (todo.isDirty) {
             const [ filename, content ] = parseTodoContent(todo)
-            writeFile(content, `${app.workDir}/todo/${app.context}/${filename}`)
+            const path = join(app.workDir, 'todo', app.context)
+            const filepath = join(path, filename)
+
+            writeFile(content, filepath).catch(async () => {
+              await fs.mkdir(path)
+              writeFile(content, filepath)
+            })
 
             return true
           }

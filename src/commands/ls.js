@@ -15,9 +15,7 @@ const stateToProps = ({ todos, backlogs, app }) => ({
 
 const action = connect(
   stateToProps,
-)((noop, { backlog }) => ({ todos, backlogs, context }) => {
-  console.log(noop, backlog)
-  // backlogs.length !== 0 && renderBacklogs(backlogs)
+)(({ backlog }) => ({ todos, backlogs, context }) => {
   if (backlog) {
     if (backlogs.length === 0) {
       return print('No backlog availables')

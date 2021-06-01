@@ -40,7 +40,7 @@ const getFileContentFromPath = async path => {
   
     for (const fileName of fileNames) {
       const content = await readFile(join(path, fileName))
-      fileContents.push({ name: fileName, content: content })
+      fileContents.push({ fileName, content })
     }
   } catch (err) { }
 
