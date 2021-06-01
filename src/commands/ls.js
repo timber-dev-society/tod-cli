@@ -7,7 +7,7 @@ const { connect } = require('../store')
 
 const command = 'ls'
 
-const stateToProps = ({ tasks, backlogs, app }) => ({
+const stateToProps = ({ tasks, backlogs, app }, {}) => ({
   context: app.context,
   tasks,
   backlogs,
@@ -15,16 +15,22 @@ const stateToProps = ({ tasks, backlogs, app }) => ({
 
 const action = connect(
   stateToProps,
-)(() => ({ tasks, backlogs, context }) => {
+)((noop, { backlog }) => ({ tasks, backlogs, context }) => {
   // backlogs.length !== 0 && renderBacklogs(backlogs)
+  if (backlog) {
+     return renderBacklogs(backlogs)
+  }
 
   const todo = tasks[context]
   todo !== undefined && todo.length !== 0 && renderTasks(todo)
 })
 
+const options = [{ option: '-b, --backlog', description: 'See backlogs'}]
+
 module.exports = {
   command,
   action,
+  options,
 }
 
 // private methods
@@ -47,16 +53,17 @@ const parseBacklog = ({ uid, description, created }) => {
 }
 
 const renderBacklogs = (backlogs) => {
-  print('====== Backlogs ======')
-
-  const table = new Table({ head: ['UID', 'Age', 'Description'] })
-  backlogs.forEach(backlog => table.push(parseBacklog(backlog)))
+  if (backlogs.length === 0) {
+    print('Backlog availables')
+    return
+  } 
+  const table = tasks.reduce((acc, task) => acc.push(parseTask(task)) && acc, new Table({ head: ['UID', 'Age', 'Description'] })).toString()
 
   print(table.toString())
 }
 
 const renderTasks = (tasks) => {
-  const data = tasks.reduce((acc, task) => acc.push(parseTask(task)) && acc, new Table({ head: [' ', 'UID', 'Description'] })).toString()
+  const table = tasks.reduce((acc, task) => acc.push(parseTask(task)) && acc, new Table({ head: [' ', 'UID', 'Description'] }))
 
-  print(data)
+  print(table.toString())
 }
