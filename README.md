@@ -9,31 +9,31 @@ Not available yet
 ### init
 
 ```bash
-tsk init
+tod init
 ```
 
-Int tsk project. Create the folder architecture into .tsk folder
+Int tod project. Create the folder architecture into .tod folder
 
 ### add
 
 ```bash
-tsk add <description...>
+tod add <description...>
 ```
 
-Create a new task
+Create a new todo
 
 ### x
 
 ```bash
-tsk x <identifier>
+tod x <identifier>
 ```
 
-Toggle the task status
+Toggle the todo status
 
 ### rm
 
 ```bash
-tsk x <identifier>
+tod x <identifier>
 ```
 
-Remove the task
+Remove the todo

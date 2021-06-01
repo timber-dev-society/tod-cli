@@ -1,10 +1,10 @@
 const { connect } = require('../store')
-const { toggleTask } = require('../action/task')
+const { toggleTodo } = require('../action/todo')
 
 const command = 'x <identifier>'
 
 const mapDispatchToProps = dispatch => ({
-  submitToggle: uid => dispatch(toggleTask(uid))
+  submitToggle: uid => dispatch(toggleTodo(uid))
 })
 
 const action = connect(

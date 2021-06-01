@@ -7,22 +7,30 @@ const { connect } = require('../store')
 
 const command = 'ls'
 
-const stateToProps = ({ tasks, backlogs, app }, {}) => ({
+const stateToProps = ({ todos, backlogs, app }) => ({
   context: app.context,
-  tasks,
+  todos,
   backlogs,
 })
 
 const action = connect(
   stateToProps,
-)((noop, { backlog }) => ({ tasks, backlogs, context }) => {
+)((noop, { backlog }) => ({ todos, backlogs, context }) => {
+  console.log(noop, backlog)
   // backlogs.length !== 0 && renderBacklogs(backlogs)
   if (backlog) {
-     return renderBacklogs(backlogs)
+    if (backlogs.length === 0) {
+      return print('No backlog availables')
+    } 
+    return render(backlogs, ['UID', 'Age', 'Description'], parseBacklog)
   }
 
-  const todo = tasks[context]
-  todo !== undefined && todo.length !== 0 && renderTasks(todo)
+  const todo = todos[context]
+  if (todo.length === 0) {
+    return print('No ToDos availables')
+  }
+  
+  render(todo, [' ', 'UID', 'Description'], parseTodo)
 })
 
 const options = [{ option: '-b, --backlog', description: 'See backlogs'}]
@@ -35,12 +43,11 @@ module.exports = {
 
 // private methods
 
-const parseTask = (task) => {
-  print(task)
-  const state = `[${chalk.green(task.done ? 'x' : ' ')}]`
-  const identifier = `#${task.uid.substring(0, 5)}`
+const parseTodo = (todo) => {
+  const state = `[${chalk.green(todo.done ? 'x' : ' ')}]`
+  const identifier = `#${todo.uid.substring(0, 5)}`
   
-  return [ state, identifier, task.description ]
+  return [ state, identifier, todo.description ]
 }
 
 const parseBacklog = ({ uid, description, created }) => {
@@ -52,18 +59,8 @@ const parseBacklog = ({ uid, description, created }) => {
   return [ identifier, age, description ]
 }
 
-const renderBacklogs = (backlogs) => {
-  if (backlogs.length === 0) {
-    print('Backlog availables')
-    return
-  } 
-  const table = tasks.reduce((acc, task) => acc.push(parseTask(task)) && acc, new Table({ head: ['UID', 'Age', 'Description'] })).toString()
-
-  print(table.toString())
-}
-
-const renderTasks = (tasks) => {
-  const table = tasks.reduce((acc, task) => acc.push(parseTask(task)) && acc, new Table({ head: [' ', 'UID', 'Description'] }))
+const render = (tasks, head, lineRenderer) => {
+  const table = tasks.reduce((acc, task) => acc.push(lineRenderer(task)) && acc, new Table({ head }))
 
   print(table.toString())
 }

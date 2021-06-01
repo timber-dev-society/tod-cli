@@ -1,7 +1,7 @@
 const { ADD_BACKLOG, DELETE_BACKLOG } = require("../../action/backlog")
-const { ADD_TASK, DELETE_TASK, CREATE_TASK } = require("../../action/task")
+const { ADD_TODO, DELETE_TODO, CREATE_TODO } = require("../../action/todo")
 const { writeFile } = require("../../core/fs")
-const { parseTaskContent } = require("../../core/storage")
+const { parseTodoContent } = require("../../core/storage")
 
 module.exports = store => next => action => {
   const { type } = action
@@ -14,7 +14,7 @@ module.exports = store => next => action => {
 
         backlogs.some(backlog => {
           if (backlog.isDirty) {
-            const [ filename, content ] = parseTaskContent(backlog)
+            const [ filename, content ] = parseTodoContent(backlog)
             writeFile(content, `${app.workDir}/backlogs/${filename}`)
 
             return true
@@ -23,13 +23,13 @@ module.exports = store => next => action => {
       }
       break
 
-    case CREATE_TASK: 
+    case CREATE_TODO: 
       {
-        const { app, tasks } = store.getState()
+        const { app, todos } = store.getState()
 
-        tasks[app.context].some(task => {
-          if (task.isDirty) {
-            const [ filename, content ] = parseTaskContent(task)
+        todos[app.context].some(todo => {
+          if (todo.isDirty) {
+            const [ filename, content ] = parseTodoContent(todo)
             writeFile(content, `${app.workDir}/todo/${app.context}/${filename}`)
 
             return true
@@ -41,7 +41,7 @@ module.exports = store => next => action => {
     case DELETE_BACKLOG:
       break
 
-    case DELETE_TASK:
+    case DELETE_TODO:
       break
 
     default:

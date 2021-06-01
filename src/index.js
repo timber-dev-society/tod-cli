@@ -1,22 +1,22 @@
 const { parse } = require('./core/command')
 const { join } = require('path')
-const { readFile, writeFile, readDir } = require('./core/fs')
+const { readFile, writeFile, readDir, getFileContentFromPath } = require('./core/fs')
 const { getCurrentBranchName, getGitUserName, getGitUserEmail } = require('./core/git')
 
 const { store } = require('./store')
 
-const { loadTasks } = require('./action/task')
+const { loadTodos } = require('./action/todo')
 const { loadBacklogs } = require('./action/backlog')
 const { setContext, setAuthor, setWorkDir } = require('./action/app')
-const { parseTaskFile } = require('./core/storage')
+const { parseTodoFile } = require('./core/storage')
 
 const start = async () => {
   // init store
   // const backlogs = await readFile('backlogs')
   // store.dispatch(loadBacklogs(backlogs))
 
-  // const tasks = await readFile('tasks')
-  // store.dispatch(loadTasks(tasks))
+  // const todos = await readFile('todos')
+  // store.dispatch(loadTodos(todos))
 
   const context = await getCurrentBranchName()
   store.dispatch(setContext(context))
@@ -24,22 +24,15 @@ const start = async () => {
   const author = `${await getGitUserName()} <${await getGitUserEmail()}>`
   store.dispatch(setAuthor(author))
  
-  const workDir = join(process.cwd(), '.tsk')
+  const workDir = join(process.cwd(), '.tod')
   store.dispatch(setWorkDir(workDir))
 
-  const taskDir = join(workDir, 'todo', context)
-  const fileNames = await readDir(taskDir)
-
-  let tasks = []
-  for (const fileName of fileNames) {
-    const task = await readFile(join(taskDir, fileName))
-    tasks.push(parseTaskFile(fileName, task))
-  }
-
-  store.dispatch(loadTasks(context, tasks))
+  const todoDir = join(workDir, 'todo', context)
+  const todo = (await getFileContentFromPath(todoDir)).map(({fileName, content}) => parseTodoFile(fileName, content))
+  store.dispatch(loadTodos(context, todo))
 
   // init commandes
-  require('./middlewares')
+ // require('./middlewares')
   require('./commands')
 
   // parse user input
@@ -47,7 +40,7 @@ const start = async () => {
 
   // save file update
   //await writeFile(store.getState().backlogs, 'backlogs')
-  //await writeFile(store.getState().tasks, 'tasks')
+  //await writeFile(store.getState().todos, 'todos')
 }
 
 start()

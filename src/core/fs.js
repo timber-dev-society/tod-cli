@@ -1,7 +1,8 @@
 const { promises: fs } = require('fs')
+const { join } = require('path')
 const { compress, decompress } = require('./archive')
 
-const baseDir = `${process.cwd()}/.tsk/`
+const baseDir = `${process.cwd()}/.tod/`
 
 const getFilePath = (file, extension = '.json') => `${baseDir}${file}${extension}`
 
@@ -31,9 +32,25 @@ const writeFile = async (content, filepath) => {
   }
 }
 
+const getFileContentFromPath = async path => {
+  let fileContents = []
+
+  try {
+    const fileNames = await readDir(path)
+  
+    for (const fileName of fileNames) {
+      const content = await readFile(join(path, fileName))
+      fileContents.push({ name: fileName, content: content })
+    }
+  } catch (err) { }
+
+  return fileContents
+}
+
 module.exports = {
   getBaseDir,
   readDir,
   readFile,
   writeFile,
+  getFileContentFromPath,
 }

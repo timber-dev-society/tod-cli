@@ -1,10 +1,10 @@
 const { connect } = require('../store')
-const { deleteTask } = require('../action/task')
+const { deleteTodo } = require('../action/todo')
 
 const command = 'rm <identifier>'
 
 const mapDispatchToProps = dispatch => ({
-  submitDelete: uid => dispatch(deleteTask(uid))
+  submitDelete: uid => dispatch(deleteTodo(uid))
 })
 
 const action = connect(

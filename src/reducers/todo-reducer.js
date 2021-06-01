@@ -2,11 +2,11 @@ const { now } = require('../core/time')
 const moment = require('moment')
 const { createHash } = require('crypto')
 
-const { buildUidMatcher } = require('../core/task')
+const { buildUidMatcher } = require('../core/todo')
 
-const { LOAD_TASKS, CREATE_TASK, ADD_TASK, TOGGLE_TASK, DELETE_TASK } = require('../action/task')
+const { LOAD_TODOS, CREATE_TODO, ADD_TODO, TOGGLE_TODO, DELETE_TODO } = require('../action/todo')
 
-const defaultTask = {
+const defaultTodo = {
   uid: undefined,
   description: undefined,
   done: false,
@@ -28,19 +28,19 @@ module.exports = (state = {}, { type, payload }) => {
   }
 
   switch(type) {
-    case LOAD_TASKS:
+    case LOAD_TODOS:
       return {
         ...state,
         [context]: data
       }
 
-    case CREATE_TASK:
+    case CREATE_TODO:
       return {
         ...state,
         [context]: [
           ...state[context],
           {
-            ...defaultTask,
+            ...defaultTodo,
             uid: createHash('sha1').update(payload + now()).digest('hex'),
             description: data,
             isDirty: true,
@@ -48,41 +48,41 @@ module.exports = (state = {}, { type, payload }) => {
         ]
       }
   
-    case ADD_TASK:
+    case ADD_TODO:
       return {
         ...state,
         [context]: [
           ...state[context],
           {
-            ...defaultTask,
+            ...defaultTodo,
             ...data,
             isDirty: true,
           },
         ]
       }
 
-    case TOGGLE_TASK:
+    case TOGGLE_TODO:
       uidMatcher = buildUidMatcher(data)
       return {
         ...state,
-        [context]: state[context].map(task => {
-          if (uidMatcher.test(task.uid)) {
+        [context]: state[context].map(todo => {
+          if (uidMatcher.test(todo.uid)) {
             return {
-              ...task, 
-              done: !task.done, 
+              ...todo, 
+              done: !todo.done, 
               updated: now() 
             }
           }
 
-          return task
+          return todo
         })
       }
     
-    case DELETE_TASK:
+    case DELETE_TODO:
       uidMatcher = buildUidMatcher(data)
       return {
         ...state,
-        [context]: state[context].filter(task => !uidMatcher.test(task.uid))
+        [context]: state[context].filter(todo => !uidMatcher.test(todo.uid))
       }
 
     default:

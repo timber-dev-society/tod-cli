@@ -25,7 +25,7 @@ test('Init should generate file system', async () => {
 
   expect(fileExists('backlog.json')).not.toThrow()
 
-  expect(fileExists('tasks.json')).not.toThrow()
+  expect(fileExists('todos.json')).not.toThrow()
 
   expect(fileExists('archive.json')).not.toThrow()
 

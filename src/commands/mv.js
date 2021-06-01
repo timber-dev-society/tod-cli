@@ -1,8 +1,8 @@
 const { connect } = require('../store')
-const { addTask } = require('../action/task')
+const { addTodo } = require('../action/todo')
 const { deleteBacklog } = require('../action/backlog')
 
-const { buildUidMatcher } = require('../core/task')
+const { buildUidMatcher } = require('../core/todo')
 
 const command = 'mv <identifier>'
 
@@ -12,25 +12,25 @@ const stateToProps = ({ backlogs, app }) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  moveTask: (context, task) => {
-    dispatch(deleteBacklog(task.uid))
-    dispatch(addTask(context, task))
+  moveTodo: (context, todo) => {
+    dispatch(deleteBacklog(todo.uid))
+    dispatch(addTodo(context, todo))
   },
 })
 
 const action = connect(
   stateToProps,
   mapDispatchToProps
-)(uid => ({ context, backlogs, moveTask }) => {
+)(uid => ({ context, backlogs, moveTodo }) => {
   const uidMatcher = buildUidMatcher(uid)
-  const task = backlogs.find(backlog => uidMatcher.test(backlog.uid))
+  const todo = backlogs.find(backlog => uidMatcher.test(backlog.uid))
 
 
-  if (task === undefined) {
-    throw 'Error task not found in backlog'
+  if (todo === undefined) {
+    throw 'Error todo not found in backlog'
   }
 
-  moveTask(context, task)
+  moveTodo(context, todo)
 })
 
 module.exports = {

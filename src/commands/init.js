@@ -9,7 +9,7 @@ const action = async () => {
   await fs.mkdir(baseDir)
 
   await writeFile({ data: [] }, 'backlog')
-  await writeFile({ data: {} }, 'tasks')
+  await writeFile({ data: {} }, 'todos')
   await writeFile({ data: [] }, 'archive')
   await writeFile({ data: [] }, 'history')
 }

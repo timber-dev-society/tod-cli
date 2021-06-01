@@ -1,46 +1,46 @@
 const { join } = require('path')
 const moment = require('moment')
-const { parseTaskFile, parseTaskContent, taskKeyConverter, fileKeyConverter } = require('../storage')
+const { parseTodoFile, parseTodoContent, todoKeyConverter, fileKeyConverter } = require('../storage')
 
 const uid = 'aaaabbbb1212'
 const filePath = join(__dirname, uid)
-const taskFileContent = `
+const todoFileContent = `
 Created: 2021-05-22 10:11:20 +0200
 Author: Some One
 Content: 
 	My awesome system
 	This is a 
-	multiline task !`
+	multiline todo !`
 
-test('Should be able to generate a Task', () => {
-  const task = parseTaskFile(filePath, taskFileContent)
+test('Should be able to generate a Todo', () => {
+  const todo = parseTodoFile(filePath, todoFileContent)
 
-  expect(task.uid).toBe(uid)
-  expect(task.created.format('X')).toBe(moment('2021-05-22 10:11:20 +0200', 'YYYY-MM-DD hh:mm:ss ZZ').format('X'))
-  expect(task.author).toBe('Some One')
+  expect(todo.uid).toBe(uid)
+  expect(todo.created.format('X')).toBe(moment('2021-05-22 10:11:20 +0200', 'YYYY-MM-DD hh:mm:ss ZZ').format('X'))
+  expect(todo.author).toBe('Some One')
 
-  expect(task.content).toBe(`My awesome system
+  expect(todo.content).toBe(`My awesome system
 This is a 
-multiline task !`)
+multiline todo !`)
 })
 
 test('Should generate the same result has the file', () => {
-  const task = parseTaskFile(filePath, taskFileContent)
-  const [ fileName, fileContent ] = parseTaskContent(task)
+  const todo = parseTodoFile(filePath, todoFileContent)
+  const [ fileName, fileContent ] = parseTodoContent(todo)
 
   expect(fileName).toBe(uid)
-  expect(fileContent).toBe(taskFileContent)
+  expect(fileContent).toBe(todoFileContent)
 })
 
-test('Should be able to convert task key', () => {
+test('Should be able to convert todo key', () => {
   const test1 = 'test'
-  expect(taskKeyConverter(test1)).toBe('Test')
+  expect(todoKeyConverter(test1)).toBe('Test')
 
   const test2 = 'testString'
-  expect(taskKeyConverter(test2)).toBe('Test String')
+  expect(todoKeyConverter(test2)).toBe('Test String')
 
   const test3 = 'testLongString'
-  expect(taskKeyConverter(test3)).toBe('Test Long String')
+  expect(todoKeyConverter(test3)).toBe('Test Long String')
 })
 
 test('Should be able to convert file key', () => {

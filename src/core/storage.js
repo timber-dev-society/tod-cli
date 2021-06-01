@@ -3,16 +3,16 @@ const moment = require('moment')
 
 const DATE_FORMAT = 'YYYY-MM-DD hh:mm:ss ZZ'
 
-const parseTaskFile = (fileName, content) => {
+const parseTodoFile = (fileName, content) => {
 
   return content.split('\n')
                 .reduce(parseLine, [])
-                .reduce(createTaskObject, {
+                .reduce(createTodoObject, {
                   uid: path.basename(fileName)
                 })
 }
 
-const parseTaskContent = (content) => {
+const parseTodoContent = (content) => {
   const data = Object.keys(content)
                      .filter(key => ![ 'uid', 'isDirty' ].includes(key))
                      .map(key => {
@@ -26,7 +26,7 @@ const parseTaskContent = (content) => {
                       }
       
                       return {
-                        key: taskKeyConverter(key),
+                        key: todoKeyConverter(key),
                         value: value.length === 1 ? value[0] : value,
                       }
                     }).reduce((acc, { key, value }) => {
@@ -42,14 +42,14 @@ const parseTaskContent = (content) => {
   ]
 }
 
-const taskKeyConverter = key => key.replace(/([A-Z])/g, ' $1').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+const todoKeyConverter = key => key.replace(/([A-Z])/g, ' $1').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
 
 const fileKeyConverter = key => key.split(' ').map((word, index) => index === 0 ? word.toLowerCase() : word).join('')
 
 module.exports = {
-  parseTaskFile,
-  parseTaskContent,
-  taskKeyConverter,
+  parseTodoFile,
+  parseTodoContent,
+  todoKeyConverter,
   fileKeyConverter,
 }
 
@@ -86,7 +86,7 @@ const parseLine = (acc, line) => {
   return acc
 }
 
-const createTaskObject = (acc, data) => {
+const createTodoObject = (acc, data) => {
   const key = data.key.toLowerCase()
 
   if (typeof data.value !== 'string') {

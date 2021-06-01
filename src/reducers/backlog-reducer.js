@@ -2,7 +2,7 @@ const { now } = require('../core/time')
 const moment = require('moment')
 const { createHash } = require('crypto')
 
-const { buildUidMatcher } = require('../core/task')
+const { buildUidMatcher } = require('../core/todo')
 
 const { LOAD_BACKLOGS, ADD_BACKLOG, DELETE_BACKLOG } = require('../action/backlog')
 
@@ -32,7 +32,7 @@ module.exports = (state = [], { type, payload }) => {
     
     case DELETE_BACKLOG:
       uidMatcher = buildUidMatcher(payload)
-      return state.filter(task => !uidMatcher.test(task.uid))
+      return state.filter(todo => !uidMatcher.test(todo.uid))
 
     default:
       return state
