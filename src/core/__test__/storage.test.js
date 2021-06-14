@@ -1,6 +1,6 @@
 const { join } = require('path')
 const moment = require('moment')
-const { parseTodoFile, parseTodoContent, todoKeyConverter, fileKeyConverter } = require('../storage')
+const { parseTodoFile, parseTodoContent } = require('../storage')
 
 const uid = 'aaaabbbb1212'
 const filePath = join(__dirname, uid)
@@ -30,26 +30,4 @@ test('Should generate the same result has the file', () => {
 
   expect(fileName).toBe(uid)
   expect(fileContent).toBe(todoFileContent)
-})
-
-test('Should be able to convert todo key', () => {
-  const test1 = 'test'
-  expect(todoKeyConverter(test1)).toBe('Test')
-
-  const test2 = 'testString'
-  expect(todoKeyConverter(test2)).toBe('Test String')
-
-  const test3 = 'testLongString'
-  expect(todoKeyConverter(test3)).toBe('Test Long String')
-})
-
-test('Should be able to convert file key', () => {
-  const test1 = 'Test'
-  expect(fileKeyConverter(test1)).toBe('test')
-
-  const test2 = 'Test String'
-  expect(fileKeyConverter(test2)).toBe('testString')
-
-  const test3 = 'Test Long String'
-  expect(fileKeyConverter(test3)).toBe('testLongString')
 })

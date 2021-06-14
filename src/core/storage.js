@@ -1,107 +1,40 @@
 const path = require('path')
 const moment = require('moment')
+const schemaBuilder = require('./dot/schema')
+const types = require('./dot/types')
 
 const DATE_FORMAT = 'YYYY-MM-DD hh:mm:ss ZZ'
 
 const parseTodoFile = (fileName, content) => {
-console.log(fileName)
-  return content.split('\n')
-                .reduce(parseLine, [])
-                .reduce(createTodoObject, {
-                  uid: path.basename(fileName)
-                })
+  const data = todoSchema.parse(content)
+
+  return {
+    ...data,
+    uid: path.basename(fileName)
+  }
 }
 
-const parseTodoContent = (content) => {
-  const data = Object.keys(content)
-                     .filter(key => ![ 'uid', 'isDirty' ].includes(key))
-                     .map(key => {
-                      let value
-                      if ([ 'created', 'updated' ].includes(key)) {
-                        value = content[key].format(DATE_FORMAT)
-                      } else if (typeof content[key] === 'boolean') {
-                        value = `${content[key] ? 1 : 0}`
-                      } else {
-                        value = content[key].split('\n')
-                      }
-      
-                      return {
-                        key: todoKeyConverter(key),
-                        value: value.length === 1 ? value[0] : value,
-                      }
-                    }).reduce((acc, { key, value }) => {
-                      acc += `\n${key}: ${typeof value === 'string' ? value : `\n\t${value.join('\n\t')}`}`
-
-                      return acc
-                    }, '')
-
+const parseTodoContent = (data) => {
+  const uid = data.uid
+  delete data.uid
+  delete data.isDirty
 
   return [
-    content.uid,
-    data,
+    uid,
+    todoSchema.stringify(data),
   ]
 }
-
-const todoKeyConverter = key => key.replace(/([A-Z])/g, ' $1').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
-
-const fileKeyConverter = key => key.split(' ').map((word, index) => index === 0 ? word.toLowerCase() : word).join('')
 
 module.exports = {
   parseTodoFile,
   parseTodoContent,
-  todoKeyConverter,
-  fileKeyConverter,
 }
 
 // Private methods
-let currentKey
-
-
-const parseLine = (acc, line) => {
-  // line is empty
-  if (line.trim() === '') {
-    return acc
-  }
-
-  // is multi line value
-  if (/\t/.test(line)) {
-    if (typeof acc[currentKey].value === 'string') {
-      acc[currentKey].value = []
-    }
-
-    acc[currentKey].value.push(line.replace(/\t/, ''))
-
-    return acc
-  }
-
-  // line key value
-  const [ key, ...value ] = line.split(':')
-
-  currentKey = acc.length
-  acc.push({
-    key,
-    value: value.join(':').trim(),
-  })
-
-  return acc
-}
-
-const createTodoObject = (acc, data) => {
-  const key = data.key.toLowerCase()
-
-  if (typeof data.value !== 'string') {
-    acc[key] = data.value.join('\n')
-
-    return acc
-  }
-  
-  if ([ 'created', 'updated' ].includes(key)) {
-    acc[key] = moment(data.value, DATE_FORMAT)
-
-    return acc
-  }
-
-  acc[key] = data.value
-
-  return acc
-}
+const todoSchema = schemaBuilder({
+  created: types.date.iso8601,
+  updated: types.date.iso8601,
+  author: types.text,
+  done: types.bool,
+  content: types.text,
+})
