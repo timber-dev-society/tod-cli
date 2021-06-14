@@ -15,12 +15,7 @@ const stringifier = (schema, keys) => data => (
       value: keys.includes(key) ? schema[key].stringify(data[key]) : text.stringify(data[key])
     }))
     .reduce((acc, { key, value }) => {
-      if (typeof value === 'string') {
-        acc += `\n${key}: ${value}`
-        return acc
-      }
-
-      acc += `\n${key}: ${value.length === 1 ? value[0] : `\n\t${value.join('\n\t')}`}`
+      acc += `\n${key}: ${typeof value === 'string' ? value : `\n\t${value.join('\n\t')}`}`
       return acc
     }, '')
 )
