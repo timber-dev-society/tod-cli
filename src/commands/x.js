@@ -13,7 +13,6 @@ const action = connect(
   stateToProps,
   mapDispatchToProps
 )(uid => ({ context, submitToggle }) => {
-  console.log(uid);
   submitToggle(context, uid)
 })
 
