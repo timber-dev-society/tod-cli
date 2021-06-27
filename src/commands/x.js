@@ -3,15 +3,19 @@ const { toggleTodo } = require('../action/todo')
 
 const command = 'x <identifier>'
 
+const stateToProps = ({ app }) => ({ context: app.context })
+
 const mapDispatchToProps = dispatch => ({
-  submitToggle: uid => dispatch(toggleTodo(uid))
+  submitToggle: (context, uid) => dispatch(toggleTodo(context, uid))
 })
 
 const action = connect(
-  undefined,
+  stateToProps,
   mapDispatchToProps
-)(uid => ({ submitToggle }) => {
-  console.log(uid);submitToggle(uid)})
+)(uid => ({ context, submitToggle }) => {
+  console.log(uid);
+  submitToggle(context, uid)
+})
 
 module.exports = {
   command,

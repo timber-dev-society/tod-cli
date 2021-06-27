@@ -28,6 +28,11 @@ const deleteTodo = (context, identifier) => ({ type: DELETE_TODO, payload: {
   data: identifier,
 }})
 
+const DELETE_ALL_TODOS = Symbol('@TSK/DELETE_ALL_TODOS')
+const deleteAllTodos = (context) => ({ type: DELETE_ALL_TODOS, payload: {
+  context,
+}})
+
 module.exports = {
   LOAD_TODOS,
   loadTodos,
@@ -39,4 +44,6 @@ module.exports = {
   toggleTodo,
   DELETE_TODO,
   deleteTodo,
+  DELETE_ALL_TODOS,
+  deleteAllTodos,
 }

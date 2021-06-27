@@ -70,7 +70,8 @@ module.exports = (state = {}, { type, payload }) => {
             return {
               ...todo, 
               done: !todo.done, 
-              updated: now() 
+              updated: moment(),
+              isDirty: true,
             }
           }
 

@@ -4,6 +4,8 @@ const Table = require('cli-table')
 const { getRelativeTime } = require('../core/time')
 const { print } = require('../core')
 const { connect } = require('../store')
+const { loadBacklogs } = require('../action/backlog')
+const { loadTodos } = require('../action/todo')
 
 const command = 'ls'
 

@@ -31,6 +31,10 @@ const start = async () => {
   const todo = (await getFileContentFromPath(todoDir)).map(({ fileName, content }) => parseTodoFile(fileName, content))
   store.dispatch(loadTodos(context, todo))
 
+  const backlogDir = join(workDir, 'backlog')
+  const backlog = (await getFileContentFromPath(backlogDir)).map(({ fileName, content }) => parseTodoFile(fileName, content))
+  store.dispatch(loadBacklogs(backlog))
+
   // init commandes
  // require('./middlewares')
   require('./commands')

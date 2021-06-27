@@ -14,5 +14,4 @@ on(COMMANDS).push((command, next) => {
   } catch (err) {
     throw err
   }
-
 })
