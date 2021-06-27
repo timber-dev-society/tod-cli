@@ -83,7 +83,16 @@ module.exports = (state = {}, { type, payload }) => {
       uidMatcher = buildUidMatcher(data)
       return {
         ...state,
-        [context]: state[context].filter(todo => !uidMatcher.test(todo.uid))
+        [context]: state[context].map(todo => {
+          if (uidMatcher.test(todo.uid)) {
+            return {
+              ...todo,
+              isDeleted: true,
+            }
+          }
+
+          return todo
+        })
       }
 
     default:
