@@ -4,7 +4,7 @@ const getRelativeTime = (timestamp) => {
   const now = moment()
   const compare = moment(timestamp, 'x')
 
-  const toTest = ['years', 'months', 'weeks', 'days', 'hours', 'minutes', 'seconds']
+  const toTest = [ 'years', 'months', 'weeks', 'days', 'hours', 'minutes', 'seconds' ]
 
   const type = toTest.find((type) => (now.diff(compare, type) > 0))
   

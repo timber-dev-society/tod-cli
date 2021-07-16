@@ -20,7 +20,7 @@ const action = connect(
     if (backlogs.length === 0) {
       return print('No backlog availables')
     } 
-    return render(backlogs, ['UID', 'Age', 'Description'], parseBacklog)
+    return render(backlogs, [ 'UID', 'Age', 'Description' ], parseBacklog)
   }
 
   const todo = todos[context]
@@ -28,10 +28,10 @@ const action = connect(
     return print('No ToDos availables')
   }
   
-  render(todo, [' ', 'UID', 'Description'], parseTodo)
+  render(todo, [ ' ', 'UID', 'Description' ], parseTodo)
 })
 
-const options = [{ option: '-b, --backlog', description: 'See backlogs'}]
+const options = [{ option: '-b, --backlog', description: 'See backlogs' }]
 
 module.exports = {
   command,

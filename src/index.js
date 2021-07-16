@@ -1,6 +1,6 @@
 const { parse } = require('./core/command')
 const { join } = require('path')
-const { readFile, writeFile, readDir, getFileContentFromPath } = require('./core/fs')
+const { getFileContentFromPath } = require('./core/fs')
 const { getCurrentBranchName, getGitUserName, getGitUserEmail } = require('./core/git')
 
 const { store } = require('./store')

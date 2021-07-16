@@ -1,9 +1,6 @@
 const path = require('path')
-const moment = require('moment')
 const schemaBuilder = require('./dot/schema')
 const types = require('./dot/types')
-
-const DATE_FORMAT = 'YYYY-MM-DD hh:mm:ss ZZ'
 
 const parseTodoFile = (fileName, content) => {
   const data = todoSchema.parse(content)

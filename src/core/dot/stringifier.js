@@ -22,5 +22,5 @@ const stringifier = (schema, keys) => data => (
 
 module.exports = {
   stringifyKey,
-  stringifier
+  stringifier,
 }

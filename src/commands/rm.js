@@ -21,7 +21,7 @@ const action = connect(
   !backlog && submitDeleteToDo(context, uid)
 })
 
-const options = [{ option: '-b, --backlog', description: 'See backlogs'}]
+const options = [{ option: '-b, --backlog', description: 'See backlogs' }]
 
 module.exports = {
   command,

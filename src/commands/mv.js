@@ -43,7 +43,7 @@ const action = connect(
   moveToTodo(context, todo)
 })
 
-const options = [{ option: '-b, --backlog', description: 'Move ToDo to backlogs'}]
+const options = [{ option: '-b, --backlog', description: 'Move ToDo to backlogs' }]
 
 module.exports = {
   command,

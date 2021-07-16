@@ -2,9 +2,7 @@ const { promises: fs } = require('fs')
 const { join } = require('path')
 const { compress, decompress } = require('./archive')
 
-const baseDir = `${process.cwd()}/.tod/`
-
-const getFilePath = (file, extension = '.json') => `${baseDir}${file}${extension}`
+const baseDir = join(process.cwd(), '.tod')
 
 const getBaseDir = () => (baseDir)
 

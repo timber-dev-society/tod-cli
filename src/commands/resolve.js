@@ -1,7 +1,7 @@
 const { connect } = require('../store')
 const { deleteAllTodos } = require('../action/todo')
 
-const command = 'resolve <identifier>'
+const command = 'resolve <context>'
 
 const mapDispatchToProps = dispatch => ({
   submitDelete: context => dispatch(deleteAllTodos(context))
