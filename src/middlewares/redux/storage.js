@@ -18,7 +18,7 @@ module.exports = store => next => action => {
         const { app, backlogs } = store.getState()
         const path = getBacklogPath(app)
 
-        backlogs[app.context].some(({isDirty, ...backlog}) => (isDirty && storeContent(path, backlog)))
+        backlogs[app.context].some(({ isDirty, ...backlog }) => (isDirty && storeContent(path, backlog)))
       }
       break
     
@@ -27,7 +27,7 @@ module.exports = store => next => action => {
         const { app, backlogs } = store.getState()
         const path = getBacklogPath(app)
         
-        backlogs.some(({isDeleted, uid}) => (isDeleted && remove(path, uid)))
+        backlogs.some(({ isDeleted, uid }) => (isDeleted && remove(path, uid)))
       }
       break
   
@@ -39,7 +39,7 @@ module.exports = store => next => action => {
         const { app, todos } = store.getState()
         const path = getTodoPath(app)
 
-        todos[app.context].some(({isDirty, ...todo}) => (isDirty && storeContent(path, todo)))
+        todos[app.context].some(({ isDirty, ...todo }) => (isDirty && storeContent(path, todo)))
       }
       break
 
@@ -48,7 +48,7 @@ module.exports = store => next => action => {
         const { app, todos } = store.getState()
         const path = getTodoPath(app)
         
-        todos[app.context].some(({isDeleted, uid}) => (isDeleted && remove(path, uid)))
+        todos[app.context].some(({ isDeleted, uid }) => (isDeleted && remove(path, uid)))
       }
       break
 

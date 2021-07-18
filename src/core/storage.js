@@ -3,6 +3,7 @@ const schemaBuilder = require('./dot/schema')
 const types = require('./dot/types')
 
 const parseTodoFile = (fileName, content) => {
+  console.log(content)
   const data = todoSchema.parse(content)
 
   return {

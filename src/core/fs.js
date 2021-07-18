@@ -1,6 +1,5 @@
 const { promises: fs } = require('fs')
 const { join } = require('path')
-const { compress, decompress } = require('./archive')
 
 const baseDir = join(process.cwd(), '.tod')
 
@@ -13,9 +12,7 @@ const readDir = async path => {
 
 const readFile = async (filepath) => {
   try {
-    const data = await fs.readFile(filepath)
-
-    return decompress(data)
+    return await (await fs.readFile(filepath)).toString()
   } catch (e) {
     throw `File "${file}${extension}" doesn't exists in "${baseDir}" path!`
   }
@@ -23,8 +20,7 @@ const readFile = async (filepath) => {
 
 const writeFile = async (content, filepath) => {
   try {
-    const data = compress(content)
-    await fs.writeFile(filepath, data)
+    await fs.writeFile(filepath, content)
   } catch (e) {
     throw `Unable to write file "${filepath}" ${e} !`
   }
