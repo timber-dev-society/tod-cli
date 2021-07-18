@@ -1,7 +1,7 @@
 {
-  "name": "tod",
+  "name": "tod-cli",
   "version": "0.1.0",
-  "description": "",
+  "description": "Task manager embeded in your development repository.",
   "main": "src/index.js",
   "scripts": {
     "tod": "NODE_ENV=TSK_DEV node ./bin/tod",
@@ -10,7 +10,7 @@
   "bin": {
     "tod": "./bin/tod"
   },
-  "author": "",
+  "author": "dious@pm.me",
   "license": "ISC",
   "dependencies": {
     "chalk": "^4.1.1",
