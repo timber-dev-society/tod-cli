@@ -1,5 +1,6 @@
 const { register } = require('../core/command')
 
+register(require('./init'))
 register(require('./add'))
 register(require('./ls'))
 register(require('./rm'))
