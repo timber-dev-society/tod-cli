@@ -1,18 +1,23 @@
-const { constants, promises: fs } = require('fs')
-const { getBaseDir, writeFile } = require('../core/fs')
+const { promises: fs } = require('fs')
+const { join } = require('path')
+const { connect } = require('../store')
 
 const command = 'init'
 
-const action = async () => {
+const stateToProps = ({ app }) => ({ 
+  workDir: app.workDir,
+})
 
- const baseDir = getBaseDir()
-  await fs.mkdir(baseDir)
+const action = connect(
+  stateToProps,
+)(() => async ({ workDir }) => {
 
-  await writeFile({ data: [] }, 'backlog')
-  await writeFile({ data: {} }, 'todos')
-  await writeFile({ data: [] }, 'archive')
-  await writeFile({ data: [] }, 'history')
-}
+  await fs.mkdir(workDir)
+  await fs.mkdir(join(workDir, 'backlog'))
+  await fs.mkdir(join(workDir, 'todo'))
+  await fs.mkdir(join(workDir, 'logs'))
+  await fs.mkdir(join(workDir, 'archive'))
+})
 
 module.exports = {
   command,

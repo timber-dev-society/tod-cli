@@ -1,36 +1,30 @@
 const { mockCwd } = require('mock-cwd')
 mockCwd()
 
-const { constants, promises: fs } = require('fs')
+const { promises: fs } = require('fs')
 const { join } = require('path')
-const { getBaseDir } = require('../../core/fs')
-
-const baseDir = getBaseDir()
-
-const fileExists = file => async () =>
-  await fs.access(join(baseDir, file), constants.F_OK)
+const { store } = require('./../../store')
+const { setWorkDir } = require('./../../action/app')
 
 test('Init should generate file system', async () => {
   const { action } = require('../init')
+  const baseDir = join(process.cwd(), '.tod')
+  store.dispatch(setWorkDir(baseDir))
 
-  try {
-    await action()
-  } catch (err) {
-    console.log(err)
-    return
-  }
+  expect(async () => await action()).not.toThrow()
 
   const stats = await fs.lstat(baseDir)
   expect(stats.isDirectory()).toBe(true)
 
-  expect(fileExists('backlog.json')).not.toThrow()
+  const backlogStats = await fs.lstat(join(baseDir, 'backlog'))
+  expect(backlogStats.isDirectory()).toBe(true)
 
-  expect(fileExists('todos.json')).not.toThrow()
+  const todoStats = await fs.lstat(join(baseDir, 'todo'))
+  expect(todoStats.isDirectory()).toBe(true)
 
-  expect(fileExists('archive.json')).not.toThrow()
+  const logsStats = await fs.lstat(join(baseDir, 'logs'))
+  expect(logsStats.isDirectory()).toBe(true)
 
-  expect(fileExists('history.json')).not.toThrow()
-
-  const backlogStats = await fs.lstat(join(baseDir, 'backlog.json'))
-  expect(backlogStats.isFile()).toBe(true)
+  const archiveStats = await fs.lstat(join(baseDir, 'archive'))
+  expect(archiveStats.isDirectory()).toBe(true)
 })

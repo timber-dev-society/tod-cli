@@ -11,7 +11,7 @@ const stateToProps = ({ app }) => ({
 })
 
 const action = connect(
-  stateToProps
+  stateToProps,
 )(outputFile => async ({ workDir }) => {
   const folders = await fs.readdir(join(workDir, 'todo'))
 
