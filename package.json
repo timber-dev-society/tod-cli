@@ -1,7 +1,8 @@
 {
   "name": "tod-cli",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Task manager embeded in your development repository.",
+  "keywords": ["cli", "todo", "task", "list", "git"],
   "main": "src/index.js",
   "scripts": {
     "tod": "NODE_ENV=TSK_DEV node ./bin/tod",
