@@ -18,7 +18,7 @@ module.exports = store => next => action => {
         const { app, backlogs } = store.getState()
         const path = getBacklogPath(app)
 
-        backlogs[app.context].some(({ isDirty, ...backlog }) => (isDirty && storeContent(path, backlog)))
+        backlogs.some(({ isDirty, ...backlog }) => (isDirty && storeContent(path, backlog)))
       }
       break
     

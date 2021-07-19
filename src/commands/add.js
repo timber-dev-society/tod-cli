@@ -5,23 +5,24 @@ const { createBacklog } = require('../action/backlog')
 const command = 'add <description...>'
 
 const mapStateToProps = ({ app }) => ({
-  context: app.context
+  context: app.context,
+  author: app.author,
 })
 
 const mapDispatchToProps = dispatch => ({
-  submitBacklog: description => dispatch(createBacklog(description)),
-  submitTodo: (context, description) => dispatch(createTodo(context, description)),
+  submitBacklog: (description, author) => dispatch(createBacklog({ description, author })),
+  submitTodo: (context, description, author) => dispatch(createTodo(context, { description, author })),
 })
 
 const action = connect(
   mapStateToProps,
   mapDispatchToProps
-)((description, { backlog }) => ({ context, submitTodo, submitBacklog }) => {
+)((description, { backlog }) => ({ context, author, submitTodo, submitBacklog }) => {
   if (backlog) {
-     submitBacklog(description.join(' '))
+     submitBacklog(description.join(' '), author)
      return
   }
-  submitTodo(context, description.join(' '), backlog)
+  submitTodo(context, description.join(' '), author)
 })
 
 const options = [{ option: '-b, --backlog', description: 'Save todo in backlog' }]

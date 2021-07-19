@@ -3,7 +3,6 @@ const schemaBuilder = require('./dot/schema')
 const types = require('./dot/types')
 
 const parseTodoFile = (fileName, content) => {
-  console.log(content)
   const data = todoSchema.parse(content)
 
   return {
@@ -30,9 +29,10 @@ module.exports = {
 
 // Private methods
 const todoSchema = schemaBuilder({
+  description: types.text,
+  author: types.text,
   created: types.date.iso8601,
   updated: types.date.iso8601,
-  author: types.text,
   done: types.bool,
   content: types.text,
 })

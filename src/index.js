@@ -36,7 +36,7 @@ const start = async () => {
   store.dispatch(loadBacklogs(backlog))
 
   // init commandes
- // require('./middlewares')
+  // require('./middlewares')
   require('./commands')
 
   // parse user input
