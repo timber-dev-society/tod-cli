@@ -99,4 +99,11 @@ tod resolve <context>
 Delete all task off this context and delete the context folder.
 
 
+### export - export tod database
+```bash
+tod resolve <outputFile>
+```
+Export the tod database into an output json file.
+
+
 
