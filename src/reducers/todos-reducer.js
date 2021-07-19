@@ -12,6 +12,7 @@ const defaultTodo = {
   done: false,
   created: moment(),
   updated: moment(),
+  isDirty: true,
 }
 
 module.exports = (state = {}, { type, payload }) => {
@@ -35,19 +36,7 @@ module.exports = (state = {}, { type, payload }) => {
       }
 
     case CREATE_TODO:
-      return {
-        ...state,
-        [context]: [
-          ...state[context],
-          {
-            ...defaultTodo,
-            uid: createHash('sha1').update(payload + now()).digest('hex'),
-            description: data,
-            isDirty: true,
-          },
-        ]
-      }
-  
+      data.uid = createHash('sha1').update(payload + now()).digest('hex')
     case ADD_TODO:
       return {
         ...state,
@@ -56,7 +45,6 @@ module.exports = (state = {}, { type, payload }) => {
           {
             ...defaultTodo,
             ...data,
-            isDirty: true,
           },
         ]
       }

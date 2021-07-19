@@ -29,9 +29,10 @@ module.exports = {
 
 // Private methods
 const todoSchema = schemaBuilder({
+  description: types.text,
+  author: types.text,
   created: types.date.iso8601,
   updated: types.date.iso8601,
-  author: types.text,
   done: types.bool,
   content: types.text,
 })

@@ -5,8 +5,8 @@ const { parseTodoFile, parseTodoContent } = require('../storage')
 const uid = 'aaaabbbb1212'
 const filePath = join(__dirname, uid)
 const todoFileContent = `
-Created: 2021-05-22 10:11:20 +0200
 Author: Some One
+Created: 2021-05-22 10:11:20 +0200
 Content: 
 	My awesome system
 	This is a 

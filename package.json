@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "tod": "NODE_ENV=TSK_DEV node ./bin/tod",
-    "test": "NODE_ENV=TSK_TEST jest"
+    "test": "jest"
   },
   "bin": {
     "tod": "./bin/tod"
