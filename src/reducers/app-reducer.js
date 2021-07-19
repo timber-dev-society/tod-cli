@@ -1,8 +1,9 @@
-const { SET_CONTEXT, SET_WORK_DIR } = require('../action/app')
+const { SET_CONTEXT, SET_WORK_DIR, SET_AUTHOR } = require('../action/app')
 
 const defaultState = {
   context: 'main',
   workDir: '',
+  author: '',
 }
 
 module.exports = (state = defaultState, { type, payload }) => {
@@ -17,6 +18,11 @@ module.exports = (state = defaultState, { type, payload }) => {
       return {
         ...state,
         workDir: payload,
+      }
+    case SET_AUTHOR:
+      return {
+        ...state,
+        author: payload,
       }
     default:
       return state
