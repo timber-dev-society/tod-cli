@@ -1,0 +1,11 @@
+const { register } = require('../core/command')
+
+register(require('./init'))
+register(require('./add'))
+register(require('./ls'))
+register(require('./rm'))
+register(require('./x'))
+register(require('./mv'))
+register(require('./ctx'))
+register(require('./resolve'))
+register(require('./export'))

@@ -1,0 +1,37 @@
+{
+  "name": "tod-cli",
+  "version": "0.3.1",
+  "description": "Task manager embeded in your development repository.",
+  "keywords": [
+    "cli",
+    "todo",
+    "task",
+    "list",
+    "git"
+  ],
+  "main": "src/index.js",
+  "scripts": {
+    "tod": "NODE_ENV=TSK_DEV node ./bin/tod",
+    "test": "jest"
+  },
+  "bin": {
+    "tod": "./bin/tod"
+  },
+  "author": "dious@pm.me",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "cli-table": "^0.3.6",
+    "commander": "^7.2.0",
+    "moment": "^2.29.1",
+    "redux": "^4.1.0",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.0",
+    "@babel/preset-env": "^7.14.1",
+    "jest": "^26.6.3",
+    "mock-cwd": "^1.0.0",
+    "prettier": "^2.3.0"
+  }
+}
