@@ -1,7 +1,0 @@
-node_modules
-.tod/*
-
-.turbo
-build/**
-dist/**
-.next/**
